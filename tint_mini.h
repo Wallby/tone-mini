@@ -20,6 +20,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef TINT_MINI_H
 #define TINT_MINI_H
 
+#define TINT_MINI_VERSION 0.1
+
 #define TM_FUNCTION static
 
 #include <math.h>
