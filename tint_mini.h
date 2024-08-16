@@ -31,31 +31,32 @@ struct tm_tint_t
 	float saturation; //< 0.0 <= saturation <= 1.0
 	float tint; //< -1.0 (black) <= tint <= +1.0 (white) <- -1.0 and +1.0 mapping is arbitrary
 };
-// NOTE: tint_black does not require color nor saturation thus both are undefined
-static const struct tm_tint_t tint_black = { .tint = -1.0f };
-// NOTE: tint_gray does not require color thus is undefined
-static const struct tm_tint_t tint_gray = { .saturation = 0.0f, .tint = 0.5f };
-// NOTE: tint_white does not require color not saturation thus both are undefined
-static const struct tm_tint_t tint_white = { .tint = +1.0f };
-static const struct tm_tint_t tint_red = { .color = 0.0f, .saturation = 1.0f, .tint = 0.0f };
-static const struct tm_tint_t tint_green = { .color = 120.0f, .saturation = 1.0f, .tint = 0.0f };
-static const struct tm_tint_t tint_blue = { .color = 240.0f, .saturation = 1.0f, .tint = 0.0f };
-static const struct tm_tint_t tint_darkred = { .color = 0.0f, .saturation = 1.0f, .tint = -0.5f };
-static const struct tm_tint_t tint_lightred = { .color = 0.0f, .saturation = 1.0f, .tint = +0.5f };
-static const struct tm_tint_t tint_darkgreen = { .color = 120.0f, .saturation = 1.0f, .tint = -0.5f };
-static const struct tm_tint_t tint_lightgreen = { .color = 120.0f, .saturation = 1.0f, .tint = +0.5f };
-static const struct tm_tint_t tint_darkblue = { .color = 240.0f, .saturation = 1.0f, .tint = -0.5f };
-static const struct tm_tint_t tint_lightblue = { .color = 240.0f, .saturation = 1.0f, .tint = +0.5f };
+// NOTE: tm_tint_black does not require color nor saturation thus both are undefined
+static const struct tm_tint_t tm_tint_black = { .tint = -1.0f };
+// NOTE: tm_tint_gray does not require color thus is undefined
+static const struct tm_tint_t tm_tint_gray = { .saturation = 0.0f, .tint = 0.5f };
+// NOTE: tm_tint_white does not require color not saturation thus both are undefined
+static const struct tm_tint_t tm_tint_white = { .tint = +1.0f };
+static const struct tm_tint_t tm_tint_red = { .color = 0.0f, .saturation = 1.0f, .tint = 0.0f };
+static const struct tm_tint_t tm_tint_green = { .color = 120.0f, .saturation = 1.0f, .tint = 0.0f };
+static const struct tm_tint_t tm_tint_blue = { .color = 240.0f, .saturation = 1.0f, .tint = 0.0f };
+static const struct tm_tint_t tm_tint_darkred = { .color = 0.0f, .saturation = 1.0f, .tint = -0.5f };
+static const struct tm_tint_t tm_tint_lightred = { .color = 0.0f, .saturation = 1.0f, .tint = +0.5f };
+static const struct tm_tint_t tm_tint_darkgreen = { .color = 120.0f, .saturation = 1.0f, .tint = -0.5f };
+static const struct tm_tint_t tm_tint_lightgreen = { .color = 120.0f, .saturation = 1.0f, .tint = +0.5f };
+static const struct tm_tint_t tm_tint_darkblue = { .color = 240.0f, .saturation = 1.0f, .tint = -0.5f };
+static const struct tm_tint_t tm_tint_lightblue = { .color = 240.0f, .saturation = 1.0f, .tint = +0.5f };
 
-struct tm_lighthsv_t
+// NOTE: e.g. for a light where adding lightens
+struct tm_light_t
 {
-	float h; //< 0.0 <= h < 360.0
-	float s; //< 0.0 <= s <= 1.0
-	float v; //< 0.0 (black) <= v <= 1.0 (white)
+	float color; //< 0.0 <= color < 360.0
+	float saturation; //< 0.0 <= saturation <= 1.0
+	float brightness; //< 0.0 (black) <= brightness <= 1.0 (white)
 };
-static const struct tm_lighthsv_t lighthsv_black = { .v = 0.0f };
-static const struct tm_lighthsv_t lighthsv_gray = { .s = 0.0f, .v = 0.5f };
-static const struct tm_lighthsv_t lighthsv_white = { .v = 1.0f };
+static const struct tm_light_t tm_light_black = { .brightness = 0.0f };
+static const struct tm_light_t tm_light_gray = { .saturation = 0.0f, .brightness = 0.5f };
+static const struct tm_light_t tm_light_white = { .brightness = 1.0f };
 
 struct tm_lightrgb_t
 {
@@ -63,9 +64,9 @@ struct tm_lightrgb_t
 	float g;
 	float b;
 };
-static const struct tm_lightrgb_t lightrgb_black = { .r = 0.0f, .g = 0.0f, .b = 0.0f };
-static const struct tm_lightrgb_t lightrgb_gray = { .r = 0.5f, .g = 0.5f, .b = 0.5f };
-static const struct tm_lightrgb_t lightrgb_white = { .r = 1.0f, .g = 1.0f, .b = 1.0f };
+static const struct tm_lightrgb_t tm_lightrgb_black = { .r = 0.0f, .g = 0.0f, .b = 0.0f };
+static const struct tm_lightrgb_t tm_lightrgb_gray = { .r = 0.5f, .g = 0.5f, .b = 0.5f };
+static const struct tm_lightrgb_t tm_lightrgb_white = { .r = 1.0f, .g = 1.0f, .b = 1.0f };
 
 struct tm_lightcmy_t
 {
@@ -73,39 +74,40 @@ struct tm_lightcmy_t
 	float m;
 	float y;
 };
-static const struct tm_lightcmy_t lightcmy_black = { .c = 0.0f, .m = 0.0f, .y = 0.0f };
-static const struct tm_lightcmy_t lightcmy_gray = { .c = 0.5f, .m = 0.5f, .y = 0.5f };
-static const struct tm_lightcmy_t lightcmy_white = { .c = 1.0f, .m = 1.0f, .y = 1.0f };
+static const struct tm_lightcmy_t tm_lightcmy_black = { .c = 0.0f, .m = 0.0f, .y = 0.0f };
+static const struct tm_lightcmy_t tm_lightcmy_gray = { .c = 0.5f, .m = 0.5f, .y = 0.5f };
+static const struct tm_lightcmy_t tm_lightcmy_white = { .c = 1.0f, .m = 1.0f, .y = 1.0f };
 
-struct tm_printerhsv_t
+// NOTE: e.g. a print on a white background where adding darkens
+struct tm_print_t
 {
-	float h; //< 0.0 <= h <= 360.0
-	float s; //< 0.0 <= s <= 1.0
-	float v; //< 0.0 (white) <= v <= 1.0 (black)
+	float color; //< 0.0 <= color <= 360.0
+	float saturation; //< 0.0 <= saturation <= 1.0
+	float darkness; //< 0.0 (white) <= darkness <= 1.0 (black)
 };
-static const struct tm_printerhsv_t tm_printerhsv_black = { .v = 1.0f };
-static const struct tm_printerhsv_t tm_printerhsv_gray = { .s = 0.0f, .v = 0.5f };
-static const struct tm_printerhsv_t tm_printerhsv_white = { .v = 0.0f };
+static const struct tm_print_t tm_print_black = { .darkness = 1.0f };
+static const struct tm_print_t tm_print_gray = { .saturation = 0.0f, .darkness = 0.5f };
+static const struct tm_print_t tm_print_white = { .darkness = 0.0f };
 
-struct tm_printerrgb_t
+struct tm_printrgb_t
 {
 	float r;
 	float g;
 	float b;
 };
-static const struct tm_printerrgb_t tm_printerrgb_black = { .r = 1.0f, .g = 1.0f, .b = 1.0f };
-static const struct tm_printerrgb_t tm_printerrgb_gray = { .r = 0.5f, .g = 0.5f, .b = 0.5f };
-static const struct tm_printerrgb_t tm_printerrgb_white = { .r = 0.0f, .g = 0.0f, .b = 0.0f };
+static const struct tm_printrgb_t tm_printrgb_black = { .r = 1.0f, .g = 1.0f, .b = 1.0f };
+static const struct tm_printrgb_t tm_printrgb_gray = { .r = 0.5f, .g = 0.5f, .b = 0.5f };
+static const struct tm_printrgb_t tm_printrgb_white = { .r = 0.0f, .g = 0.0f, .b = 0.0f };
 
-struct tm_printercmy_t
+struct tm_printcmy_t
 {
 	float c;
 	float m;
 	float y;
 };
-static const struct tm_printercmy_t tm_printercmy_black = { .c = 1.0f, .m = 1.0f, .y = 1.0f };
-static const struct tm_printercmy_t tm_printercmy_gray = { .c = 0.5f, .m = 0.5f, .y = 0.5f };
-static const struct tm_printercmy_t tm_printercmy_white = { .c = 0.0f, .m = 0.0f, .y = 0.0f };
+static const struct tm_printcmy_t tm_printcmy_black = { .c = 1.0f, .m = 1.0f, .y = 1.0f };
+static const struct tm_printcmy_t tm_printcmy_gray = { .c = 0.5f, .m = 0.5f, .y = 0.5f };
+static const struct tm_printcmy_t tm_printcmy_white = { .c = 0.0f, .m = 0.0f, .y = 0.0f };
 
 //*****************************************************************************
 
@@ -162,20 +164,20 @@ TM_FUNCTION struct tm_rgb_t tm_color_to_rgb(float color)
 
 //*****************************************************************************
 
-TM_FUNCTION struct tm_lighthsv_t tm_tint_to_lighthsv(struct tm_tint_t tint)
+TM_FUNCTION struct tm_light_t tm_tint_to_light(struct tm_tint_t tint)
 {
-	struct tm_lighthsv_t lighthsv;
-	lighthsv.h = tint.color;
-	lighthsv.s = tint.saturation;
-	lighthsv.v = (tint.tint / 2.0f) + 0.5f;
-	return lighthsv;
+	struct tm_light_t light;
+	light.color = tint.color;
+	light.saturation = tint.saturation;
+	light.brightness = (tint.tint / 2.0f) + 0.5f;
+	return light;
 }
-TM_FUNCTION struct tm_tint_t tm_lighthsv_to_tint(struct tm_lighthsv_t lighthsv)
+TM_FUNCTION struct tm_tint_t tm_light_to_tint(struct tm_light_t light)
 {
 	struct tm_tint_t tint;
-	tint.color = lighthsv.h;
-	tint.saturation = lighthsv.s;
-	tint.tint = (lighthsv.v - 0.5f) * 2.0f;
+	tint.color = light.color;
+	tint.saturation = light.saturation;
+	tint.tint = (light.brightness - 0.5f) * 2.0f;
 	return tint;
 }
 // NOTE: not sure if 100% correct
@@ -219,70 +221,70 @@ TM_FUNCTION struct tm_lightrgb_t tm_tint_to_lightrgb(struct tm_tint_t tint)
 	
 	return lightrgb;
 };
-TM_FUNCTION struct tm_lightrgb_t tm_lighthsv_to_lightrgb(struct tm_lighthsv_t lighthsv)
+TM_FUNCTION struct tm_lightrgb_t tm_light_to_lightrgb(struct tm_light_t light)
 {
-	struct tm_tint_t tint = tm_lighthsv_to_tint(lighthsv);
+	struct tm_tint_t tint = tm_light_to_tint(light);
 	return tm_tint_to_lightrgb(tint);
 }
 
-TM_FUNCTION struct tm_printerhsv_t tm_tint_to_printerhsv(struct tm_tint_t tint)
+TM_FUNCTION struct tm_print_t tm_tint_to_print(struct tm_tint_t tint)
 {
-	struct tm_printerhsv_t printerhsv;
-	printerhsv.h = tint.color;
-	printerhsv.s = tint.saturation;
-	printerhsv.v = ((-tint.tint) / 2.0f) + 0.5f;
+	struct tm_print_t print;
+	print.color = tint.color;
+	print.saturation = tint.saturation;
+	print.darkness = ((-tint.tint) / 2.0f) + 0.5f;
 }
-TM_FUNCTION struct tm_tint_t tm_printerhsv_to_tint(struct tm_printerhsv_t printerhsv)
+TM_FUNCTION struct tm_tint_t tm_print_to_tint(struct tm_print_t print)
 {
 	struct tm_tint_t tint;
-	tint.color = printerhsv.h;
-	tint.saturation = printerhsv.s;
-	tint.tint = -((printerhsv.v - 0.5f) * 2.0f);
+	tint.color = print.color;
+	tint.saturation = print.saturation;
+	tint.tint = -((print.darkness - 0.5f) * 2.0f);
 	return tint;
 }
-TM_FUNCTION struct tm_printerrgb_t tm_tint_to_printerrgb(struct tm_tint_t tint)
+TM_FUNCTION struct tm_printrgb_t tm_tint_to_printrgb(struct tm_tint_t tint)
 {
 	tint.tint = -tint.tint;
 	struct tm_lightrgb_t a = tm_tint_to_lightrgb(tint); //< not actually lightrgb as above tint.tint = -tint.tint
-	struct tm_printerrgb_t printerrgb = { .r = a.r, .g = a.g, .b = a.b };
-	return printerrgb;
+	struct tm_printrgb_t printrgb = { .r = a.r, .g = a.g, .b = a.b };
+	return printrgb;
 }
-TM_FUNCTION struct tm_printerrgb_t tm_printerhsv_to_printerrgb(struct tm_printerhsv_t printerhsv)
+TM_FUNCTION struct tm_printrgb_t tm_print_to_printrgb(struct tm_print_t print)
 {
-	struct tm_tint_t tint = tm_printerhsv_to_tint(printerhsv);
-	return tm_tint_to_printerrgb(tint);
+	struct tm_tint_t tint = tm_print_to_tint(print);
+	return tm_tint_to_printrgb(tint);
 }
 
-TM_FUNCTION struct tm_printerhsv_t tm_lighthsv_to_printerhsv(struct tm_lighthsv_t lighthsv)
+TM_FUNCTION struct tm_print_t tm_light_to_print(struct tm_light_t light)
 {
-	struct tm_printerhsv_t printerhsv;
-	printerhsv.h = lighthsv.h;
-	printerhsv.s = lighthsv.s;
-	printerhsv.v = 1.0f - lighthsv.v;
-	return printerhsv;
+	struct tm_print_t print;
+	print.color = light.color;
+	print.saturation = light.saturation;
+	print.darkness = 1.0f - light.brightness;
+	return print;
 }
-TM_FUNCTION struct tm_printerrgb_t tm_lightrgb_to_printerrgb(struct tm_lightrgb_t lightrgb)
+TM_FUNCTION struct tm_printrgb_t tm_lightrgb_to_printrgb(struct tm_lightrgb_t lightrgb)
 {
-	struct tm_printerrgb_t printerrgb;
-	printerrgb.r = 1.0f - lightrgb.r;
-	printerrgb.g = 1.0f - lightrgb.g;
-	printerrgb.b = 1.0f - lightrgb.b;
-	return printerrgb;
+	struct tm_printrgb_t printrgb;
+	printrgb.r = 1.0f - lightrgb.r;
+	printrgb.g = 1.0f - lightrgb.g;
+	printrgb.b = 1.0f - lightrgb.b;
+	return printrgb;
 }
-TM_FUNCTION struct tm_lighthsv_t tm_printerhsv_to_lighthsv(struct tm_printerhsv_t printerhsv)
+TM_FUNCTION struct tm_light_t tm_print_to_light(struct tm_print_t print)
 {
-	struct tm_lighthsv_t lighthsv;
-	lighthsv.h = printerhsv.h;
-	lighthsv.s = printerhsv.s;
-	lighthsv.v = 1.0f - printerhsv.v;
-	return lighthsv;
+	struct tm_light_t light;
+	light.color = print.color;
+	light.saturation = print.saturation;
+	light.brightness = 1.0f - print.darkness;
+	return light;
 }
-TM_FUNCTION struct tm_lightrgb_t tm_printerrgb_to_lightrgb(struct tm_printerrgb_t printerrgb)
+TM_FUNCTION struct tm_lightrgb_t tm_printrgb_to_lightrgb(struct tm_printrgb_t printrgb)
 {
 	struct tm_lightrgb_t lightrgb;
-	lightrgb.r = 1.0f - printerrgb.r;
-	lightrgb.g = 1.0f - printerrgb.g;
-	lightrgb.b = 1.0f - printerrgb.b;
+	lightrgb.r = 1.0f - printrgb.r;
+	lightrgb.g = 1.0f - printrgb.g;
+	lightrgb.b = 1.0f - printrgb.b;
 	return lightrgb;
 }
 
